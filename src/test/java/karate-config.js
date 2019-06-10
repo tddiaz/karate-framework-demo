@@ -10,6 +10,6 @@ function fn() {
     karate.configure('readTimeout', 5000);
 
     return {
-        baseUrl: 'localhost'
+        baseUrl: 'http://ec2-3-86-154-88.compute-1.amazonaws.com'
     };
 }
