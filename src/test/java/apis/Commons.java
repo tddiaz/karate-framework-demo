@@ -3,6 +3,7 @@ package apis;
 import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import java.security.PrivateKey;
 import java.time.Clock;
@@ -10,7 +11,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.Map;
+import java.util.UUID;
 
+@Slf4j
 public final class Commons {
 
     private static String encodedPrivateKey = "MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgBVVr5i4W9/Sos5g/HDIOrze9w4" +
@@ -33,7 +36,13 @@ public final class Commons {
         final PrivateKey privateKey = ECCrypto.privateKeyFromBytes(BASE64_DECODER.decode(encodedPrivateKey));
         final String bankSignature = BASE64_ENCODER.encodeToString(ECCrypto.sign(payload, privateKey));
 
+        log.info("bank signature: {}", bankSignature);
+
         return BASE64_ENCODER.encodeToString(GSON.toJson(new AuthHeader("02", bankSignature)).getBytes());
+    }
+
+    public static String randomId() {
+        return UUID.randomUUID().toString().substring(24, 36);
     }
 
     private Commons() {

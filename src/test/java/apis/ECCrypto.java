@@ -5,7 +5,6 @@ import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.security.Signature;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
@@ -42,18 +41,4 @@ public class ECCrypto {
         }
         return new byte[0];
     }
-
-    public static boolean verify(String text, byte[] baSignature, PublicKey pubKey) {
-        Signature signature;
-        try {
-            signature = Signature.getInstance(SIGNATURE_ALGORITHM);
-            signature.initVerify(pubKey);
-            signature.update(text.getBytes(StandardCharsets.UTF_8));
-            return signature.verify(baSignature);
-        } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException e) {
-            LOGGER.log(Level.ALL, "verify", e);
-        }
-        return false;
-    }
-
 }
